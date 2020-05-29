@@ -1,5 +1,8 @@
 import csv
-scp_version = MAB000125
- with open('failure_bitmap.cvs',w, newline='') as f:
-     filename =['Failurebitmapof'+'scp']
-     thewriter= cvs.Dictwrite(f)
+
+scp_version = 'MAB000125'
+
+with open('failure.cvs', 'w', newline='') as fail:
+    fieldnames = ['Failurebitmapof' + scp_version]
+    DictWriter = csv.DictWriter(fail, fieldnames=fieldnames)
+
