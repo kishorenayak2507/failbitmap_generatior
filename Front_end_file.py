@@ -10,10 +10,9 @@ def gen_id():
     register_screen = Toplevel(main_screen)
     register_screen.title("Generic ID Search")
     register_screen.geometry("350x300")
-    register_screen.configure(bg='#E9B195')
-    Label(register_screen, text="Please Enter Generic ID",bg='#FD705E',  width="300", height="2",font=("Calibri", 13, 'bold') ).pack()
-    Label(register_screen, text="", bg='#E9B195').pack()
-
+    register_screen.configure(bg='#FFCD5B')
+    Label(register_screen, text="Please Enter Generic ID", bg='#FD705E',  width="300", height="2", font=("Calibri", 13, 'bold') ).pack()
+    Label(register_screen, text="", bg='#FFCD5B').pack()
     global genericid
     global softwareversion
     global genericid_entry
@@ -21,19 +20,21 @@ def gen_id():
     genericid = StringVar()
     softwareversion = StringVar()
 
-    username_lable = Label(register_screen, text="Generic ID * ")
+    username_lable = Label(register_screen, text="Generic ID * ", bg='#FFCD5B', font=("Calibri", 13, 'bold'))
     username_lable.pack()
-    Label(register_screen, text="", bg='#E9B195').pack()
+    Label(register_screen, text="", bg='#FFCD5B').pack()
     genericid_entry = Entry(register_screen, textvariable=genericid)
+    genericid_entry.place(width=300, height=2)
     genericid_entry.pack()
-    Label(register_screen, text="", bg='#E9B195').pack()
-    password_lable = Label(register_screen, text="SW Version Used * ")
+    Label(register_screen, text="", bg='#FFCD5B').pack()
+    password_lable = Label(register_screen, text="SW Version Used * ", bg='#FFCD5B', font=("Calibri", 13, 'bold'))
     password_lable.pack()
-    Label(register_screen, text="", bg='#E9B195').pack()
+    Label(register_screen, text="", bg='#FFCD5B').pack()
     softwareversion_entry = Entry(register_screen, textvariable=softwareversion)
+    softwareversion_entry.place(width=300, height=2)
     softwareversion_entry.pack()
-    Label(register_screen, text="", bg='#E9B195').pack()
-    Button(register_screen, text="SEARCH", width=10, height=1, bg="blue", command=geneid_search).pack()
+    Label(register_screen, text="", bg='#FFCD5B').pack()
+    Button(register_screen, text="SEARCH", font=("Calibri", 13, 'bold'), width=15, height=1, bg="blue", command=geneid_search).pack()
 
 
 # Designing window for failure name search
@@ -42,10 +43,10 @@ def fail_name():
     global login_screen
     login_screen = Toplevel(main_screen)
     login_screen.title("Failure Name Search ")
-    login_screen.geometry("300x250")
-    login_screen.configure(bg='#E9B195')
-    Label(login_screen, text="Please Enter Failure Name",bg='#FD705E',  width="300", height="2",font=("Calibri", 13, 'bold') ).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    login_screen.geometry("350x300")
+    login_screen.configure(bg='#FFCD5B')
+    Label(login_screen, text="Please Enter Failure Name",bg='#FD705E',  width="350", height="2",font=("Calibri", 13, 'bold') ).pack()
+    Label(login_screen, text="", bg='#FFCD5B').pack()
 
     global failurename_verify
     global sw_version
@@ -53,17 +54,17 @@ def fail_name():
     sw_version = StringVar()
     global failurename_login_entry
     global sw_version_login_entry
-    Label(login_screen, text="Failure Name * ", bg='#E9B195', font=("Calibri", 13, 'bold')).pack()
+    Label(login_screen, text="Failure Name * ", bg='#FFCD5B', font=("Calibri", 13, 'bold')).pack()
     failurename_login_entry = Entry(login_screen, textvariable=failurename_verify)
-    failurename_login_entry.place(width=100,height=2)
+    failurename_login_entry.place(width=300, height=2)
     failurename_login_entry.pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
-    Label(login_screen, text="SW Version Used * ", bg='#E9B195', font=("Calibri", 13, 'bold')).pack()
+    Label(login_screen, text="", bg='#FFCD5B').pack()
+    Label(login_screen, text="SW Version Used * ", bg='#FFCD5B', font=("Calibri", 13, 'bold')).pack()
     sw_version_login_entry = Entry(login_screen, textvariable=sw_version)
-    sw_version_login_entry.place(width=100,height=2)
+    sw_version_login_entry.place(width=300, height=2)
     sw_version_login_entry.pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
-    Button(login_screen, text="SEARCH",bg='#508FF6', width=10, height=1, font=("Calibri", 13, 'bold'), command=fail_search).pack()
+    Label(login_screen, text="", bg='#FFCD5B').pack()
+    Button(login_screen, text="SEARCH", font=("Calibri", 13, 'bold'), bg='#508FF6', width=15, height=1, command=fail_search).pack()
 
 
 # Implementing event on generic id button
@@ -90,7 +91,11 @@ def fail_search():
     else:
         fail_search_failed()
 
-
+def exporter_csv():
+    s_ver = softwareversion_csv.get()
+    bitmapgen.Export_csv_file(s_ver)
+    export_screen.destroy()
+    main_screen.destroy()
 
 # Designing popup for search success
 
@@ -102,14 +107,17 @@ def fail_search_sucess(info):
     sw_version_login_entry.delete(0, END)
     login_success_screen = Toplevel(login_screen)
     login_success_screen.title("Failure Found ")
-    login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="Failure Name :\t"+f_name).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Label(login_success_screen, text="WORD :\t" + f_info[1]+"\tBIT :\t" + f_info[2]).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Label(login_success_screen, text="GENERIC ID :\t" + f_info[3]).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Button(login_success_screen, text="OK", command=delete_login_success).pack()
+    login_success_screen.geometry("300x250")
+    login_success_screen.configure(bg='#C7FD62')
+    Label(login_success_screen, text="Failure Name", bg='#B0F62E', width="300", height="1", font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text=f_name, bg='#B0F62E', width="300", height="2", font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="WORD :" + f_info[1]+"\tBIT :" + f_info[2], font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="GENERIC ID :" + f_info[3], font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Button(login_success_screen, text="OK", font=("Calibri", 13, 'bold'), bg='yellow', width=15, height=2, command=delete_login_success).pack()
 
 def gid_search_sucess(info):
     global login_success_screen
@@ -120,13 +128,35 @@ def gid_search_sucess(info):
     login_success_screen = Toplevel(register_screen)
     login_success_screen.title("Failure Found ")
     login_success_screen.geometry("300x250")
-    Label(login_success_screen, text="Failure Name :\t" + g_info[1]).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Label(login_success_screen, text="WORD :\t" + g_info[2]+"\tBIT :\t" + g_info[3]).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Label(login_success_screen, text="GENERIC ID :\t" + gid_name).pack()
-    Label(login_success_screen, text="", bg='#E9B195').pack()
-    Button(login_success_screen, text="OK", command=delete_login_success).pack()
+    login_success_screen.configure(bg='#C7FD62')
+    Label(login_success_screen, text="Failure Name :", bg='#B0F62E', width="300", height="1", font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text=g_info[1], bg='#B0F62E', width="300", height="2", font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="WORD :" + g_info[2]+"\tBIT :" + g_info[3], font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="GENERIC ID :\t" + gid_name, font=("Calibri", 13, 'bold')).pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Label(login_success_screen, text="", bg='#C7FD62').pack()
+    Button(login_success_screen, text="OK", font=("Calibri", 13, 'bold'), bg='yellow', width=15, height=2, command=delete_login_success).pack()
+
+def export_cvs():
+    global export_screen
+    export_screen = Toplevel(main_screen)
+    export_screen.title("Csv File Exporter")
+    export_screen.geometry("250x200")
+    export_screen.configure(bg='#FFCD5B')
+    Label(export_screen, text="Please Enter SW version", bg='#FD705E',  width="300", height="2", font=("Calibri", 13, 'bold') ).pack()
+    Label(export_screen, text="", bg='#FFCD5B').pack()
+    global softwareversion_csv
+    global softwareversion_csv_entry
+    softwareversion_csv = StringVar()
+    Label(export_screen, text="SW Version Used * ", bg='#FFCD5B', font=("Calibri", 13, 'bold')).pack()
+    softwareversion_csv_entry = Entry(export_screen, textvariable=softwareversion_csv)
+    softwareversion_csv_entry.place(width=300, height=2)
+    softwareversion_csv_entry.pack()
+    Label(export_screen, text="", bg='#FFCD5B').pack()
+    Label(export_screen, text="", bg='#FFCD5B').pack()
+    Button(export_screen, text="EXPORT", font=("Calibri", 13, 'bold'), bg='#508FF6', width=15, height=1, command=exporter_csv).pack()
 
 
 # Designing popup for failed search
@@ -154,17 +184,21 @@ def gid_search_failed():
 
 def delete_login_success():
     login_success_screen.destroy()
+    register_screen.destroy()
+    main_screen.destroy()
 
 
 def delete_password_not_recognised():
     password_not_recog_screen.destroy()
+    login_screen.destroy()
+    main_screen.destroy()
 
 # Designing Main(first) window
 
 def main_account_screen():
     global main_screen
     main_screen = Tk()
-    main_screen.geometry("600x400")
+    main_screen.geometry("600x600")
     main_screen.configure(bg='green')
     main_screen.title("Failure bitmap friend")
     Label(text="Search Failure Name or Generic ID", bg="#06FE33", width="300", height="2", font=("Calibri", 25, 'bold')).pack()
@@ -174,6 +208,10 @@ def main_account_screen():
     Button(text="FAILURE NAME", bg="#FFB233", height="2", width="30",font=("Calibri", 20, 'bold'), command=fail_name).pack()
     Label(text="", bg="green").pack()
     Button(text="GENERIC ID", bg="#FFB233", height="2", width="30", font=("Calibri", 20, 'bold'), command=gen_id).pack()
+    Label(text="", bg="green").pack()
+    Label(text="export cvs file withe complete failure list", font=("Calibri", 15, 'bold'), bg="green").pack()
+    Label(text="", bg="green").pack()
+    Button(text="EXPORT BITMAP", bg="#FFB233", height="2", width="30", font=("Calibri", 20, 'bold'), command=export_cvs).pack()
 
     main_screen.mainloop()
 

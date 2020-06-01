@@ -59,15 +59,16 @@ def Export_csv_file(sversion):
     csv_writer = csv.writer(data_file)
     count = 0
     for fail in doc['FailureBits']['FailureBit']:
-       if count == 0:
-        # Writing headers of CSV file
-        Header_fields = ["FailureBitName", "FailureBitDynAddressWord", "FailureBitDynAddressBit", "FailureBitGenericDataID"]
-        csv_writer.writerow(Header_fields)
-        count += 1
-    # Writing data of CSV file
-    fail_fields = [fail['FailureBitName'], fail['FailureBitDynAddress']['FailureBitDynAddressWord'], fail['FailureBitDynAddress']['FailureBitDynAddressBit'], fail['FailureBitGenericData']['FailureBitGenericDataID']]
-    csv_writer.writerow(fail_fields)
+        if count == 0:
+            # Writing headers of CSV file
+            Header_fields = ["FailureBitName", "FailureBitDynAddressWord", "FailureBitDynAddressBit", "FailureBitGenericDataID"]
+            csv_writer.writerow(Header_fields)
+            count += 1
+        # Writing data of CSV file
+        fail_fields = [fail['FailureBitName'], fail['FailureBitDynAddress']['FailureBitDynAddressWord'], fail['FailureBitDynAddress']['FailureBitDynAddressBit'], fail['FailureBitGenericData']['FailureBitGenericDataID']]
+        csv_writer.writerow(fail_fields)
     data_file.close()
+
 
 
 
