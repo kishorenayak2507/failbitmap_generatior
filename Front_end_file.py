@@ -9,10 +9,10 @@ def gen_id():
     global register_screen
     register_screen = Toplevel(main_screen)
     register_screen.title("Generic ID Search")
-    register_screen.geometry("300x250")
-    login_screen.configure(bg='#E9B195')
-    Label(login_screen, text="Please Enter Generic ID",bg='#FD705E',  width="300", height="2",font=("Calibri", 13, 'bold') ).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    register_screen.geometry("350x300")
+    register_screen.configure(bg='#E9B195')
+    Label(register_screen, text="Please Enter Generic ID",bg='#FD705E',  width="300", height="2",font=("Calibri", 13, 'bold') ).pack()
+    Label(register_screen, text="", bg='#E9B195').pack()
 
     global genericid
     global softwareversion
@@ -23,13 +23,16 @@ def gen_id():
 
     username_lable = Label(register_screen, text="Generic ID * ")
     username_lable.pack()
-    username_entry = Entry(register_screen, textvariable=genericid)
-    username_entry.pack()
+    Label(register_screen, text="", bg='#E9B195').pack()
+    genericid_entry = Entry(register_screen, textvariable=genericid)
+    genericid_entry.pack()
+    Label(register_screen, text="", bg='#E9B195').pack()
     password_lable = Label(register_screen, text="SW Version Used * ")
     password_lable.pack()
-    password_entry = Entry(register_screen, textvariable=softwareversion, show='*')
-    password_entry.pack()
-    Label(register_screen, text="").pack()
+    Label(register_screen, text="", bg='#E9B195').pack()
+    softwareversion_entry = Entry(register_screen, textvariable=softwareversion)
+    softwareversion_entry.pack()
+    Label(register_screen, text="", bg='#E9B195').pack()
     Button(register_screen, text="SEARCH", width=10, height=1, bg="blue", command=geneid_search).pack()
 
 
@@ -68,22 +71,22 @@ def fail_name():
 def geneid_search():
     genericid_info = genericid.get()
     softwareversion_info = softwareversion.get()
-    global fail_info_id
+    fail_info_id = []
     fail_info_id = bitmapgen.find_failure_byID(genericid_info, softwareversion_info)
     if fail_info_id[0] == 'True':
-        gid_search_sucess()
+        gid_search_sucess(fail_info_id)
     else:
-        gid_search_failed()
+        gid_search_sucess(fail_info_id)
 
 # Implementing event on failure name button
 
 def fail_search():
     f_name = failurename_verify.get()
     s_ver = sw_version.get()
-    global fail_info
+    fail_info = []
     fail_info = bitmapgen.find_failure_byname(f_name, s_ver)
     if fail_info[0] == 'True':
-        fail_search_sucess()
+        fail_search_sucess(fail_info)
     else:
         fail_search_failed()
 
@@ -91,38 +94,38 @@ def fail_search():
 
 # Designing popup for search success
 
-def fail_search_sucess():
+def fail_search_sucess(info):
     global login_success_screen
     f_name = failurename_verify.get()
-    f_info = fail_info
+    f_info = info
     failurename_login_entry.delete(0, END)
     sw_version_login_entry.delete(0, END)
     login_success_screen = Toplevel(login_screen)
     login_success_screen.title("Failure Found ")
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Failure Name :\t"+f_name).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Label(login_success_screen, text="WORD :\t" + f_info[1]+"\tBIT :\t" + f_info[2]).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Label(login_success_screen, text="GENERIC ID :\t" + f_info[3]).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Button(login_success_screen, text="OK", command=delete_login_success).pack()
 
-def gid_search_sucess():
+def gid_search_sucess(info):
     global login_success_screen
     gid_name = genericid.get()
-    g_info = fail_info_id
+    g_info = info
     genericid_entry.delete(0, END)
     softwareversion_entry.delete(0, END)
-    login_success_screen = Toplevel(login_screen)
+    login_success_screen = Toplevel(register_screen)
     login_success_screen.title("Failure Found ")
-    login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="Failure Name :\t"+g_info[1]).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    login_success_screen.geometry("300x250")
+    Label(login_success_screen, text="Failure Name :\t" + g_info[1]).pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Label(login_success_screen, text="WORD :\t" + g_info[2]+"\tBIT :\t" + g_info[3]).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Label(login_success_screen, text="GENERIC ID :\t" + gid_name).pack()
-    Label(login_screen, text="", bg='#E9B195').pack()
+    Label(login_success_screen, text="", bg='#E9B195').pack()
     Button(login_success_screen, text="OK", command=delete_login_success).pack()
 
 
@@ -141,7 +144,7 @@ def gid_search_failed():
     global password_not_recog_screen
     genericid_entry.delete(0, END)
     softwareversion_entry.delete(0, END)
-    password_not_recog_screen = Toplevel(login_screen)
+    password_not_recog_screen = Toplevel(register_screen)
     password_not_recog_screen.title("Generic ID Not Found")
     password_not_recog_screen.geometry("150x100")
     Label(password_not_recog_screen, text="GenericID is Not Active or Invalid ").pack()
