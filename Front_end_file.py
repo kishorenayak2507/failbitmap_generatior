@@ -77,7 +77,7 @@ def geneid_search():
     if fail_info_id[0] == 'True':
         gid_search_sucess(fail_info_id)
     else:
-        gid_search_sucess(fail_info_id)
+        gid_search_failed()
 
 # Implementing event on failure name button
 
@@ -167,18 +167,28 @@ def fail_search_failed():
     sw_version_login_entry.delete(0, END)
     password_not_recog_screen = Toplevel(login_screen)
     password_not_recog_screen.title("Failure Not Found")
-    password_not_recog_screen.geometry("150x100")
-    Label(password_not_recog_screen, text="Failure is Not Active or Invalid name ").pack()
-    Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
+    password_not_recog_screen.geometry("300x200")
+    password_not_recog_screen.configure(bg='#FD705E')
+    Label(password_not_recog_screen, text=" FAILURE IS NOT ACTIVE ", bg='#FD705E',  width="300", height="1", font=("Calibri", 15, 'bold')).pack()
+    Label(password_not_recog_screen, text=" OR INVALID NAME ",bg='#FD705E',  width="300", height="1", font=("Calibri", 15, 'bold')).pack()
+    Label(password_not_recog_screen, text="", bg='#FD705E').pack()
+    Label(password_not_recog_screen, text="", bg='#FD705E').pack()
+    Button(password_not_recog_screen, text="OK", font=("Calibri", 13, 'bold'), bg='yellow', width=15, height=2, command=delete_password_not_recognised).pack()
 def gid_search_failed():
     global password_not_recog_screen
     genericid_entry.delete(0, END)
     softwareversion_entry.delete(0, END)
     password_not_recog_screen = Toplevel(register_screen)
     password_not_recog_screen.title("Generic ID Not Found")
-    password_not_recog_screen.geometry("150x100")
-    Label(password_not_recog_screen, text="GenericID is Not Active or Invalid ").pack()
-    Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
+    password_not_recog_screen.geometry("300x200")
+    password_not_recog_screen.configure(bg='#FD705E')
+    Label(password_not_recog_screen, text=" GENERIC ID IS NOT ACTIVE ", bg='#FD705E', width="300", height="1",
+          font=("Calibri", 15, 'bold')).pack()
+    Label(password_not_recog_screen, text=" OR INVALID ID ", bg='#FD705E', width="300", height="1",
+          font=("Calibri", 15, 'bold')).pack()
+    Label(password_not_recog_screen, text="", bg='#FD705E').pack()
+    Label(password_not_recog_screen, text="", bg='#FD705E').pack()
+    Button(password_not_recog_screen, text="OK", font=("Calibri", 13, 'bold'), bg='yellow', width=15, height=2, command=delete_gid_not_recognised).pack()
 
 # Deleting popups
 
@@ -191,6 +201,10 @@ def delete_login_success():
 def delete_password_not_recognised():
     password_not_recog_screen.destroy()
     login_screen.destroy()
+    main_screen.destroy()
+def delete_gid_not_recognised():
+    password_not_recog_screen.destroy()
+    register_screen.destroy()
     main_screen.destroy()
 
 # Designing Main(first) window

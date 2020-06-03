@@ -16,12 +16,17 @@ def find_failure_byname(name, sname):
     extract_file_inlocation(sname)
     with open('DOCUMENTATION/' + sname + '_dynamic_failure_bit_documentation_customer.xml') as fd:
         doc = xmltodict.parse(fd.read())
+        temp = 'True'
     for entry in doc['FailureBits']['FailureBit']:
         if name == entry['FailureBitName']:
-            return 'True', entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress']['FailureBitDynAddressBit'], entry['FailureBitGenericData']['FailureBitGenericDataID']
+            temp = 'True'
             # print('word =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressWord'])
             # print('Bit =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressBit'])
             # print('Generic ID =\t' + entry['FailureBitGenericData']['FailureBitGenericDataID'])
+        else:
+            temp = 'False'
+    return temp, entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress'][
+        'FailureBitDynAddressBit'], entry['FailureBitGenericData']['FailureBitGenericDataID']
 
 
 def find_failure_byID(gen_ID,swname):
@@ -29,13 +34,18 @@ def find_failure_byID(gen_ID,swname):
     with open('DOCUMENTATION/' + swname + '_dynamic_failure_bit_documentation_customer.xml') as fd:
         doc = xmltodict.parse(fd.read())
         # print(doc['FailureBits']['FailureBit'][0])
+        temp = 'True'
     for entry in doc['FailureBits']['FailureBit']:
         # print(entry['FailureBitGenericData']['FailureBitGenericDataID'])
         if gen_ID == entry['FailureBitGenericData']['FailureBitGenericDataID']:
-            return 'True', entry['FailureBitName'], entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress']['FailureBitDynAddressBit']
+            temp = 'True'
             # print('word =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressWord'])
             # print('Bit =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressBit'])
             # print('Failure Name =\t' + entry['FailureBitName'])
+        else:
+            temp = 'False'
+    return temp, entry['FailureBitName'], entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress']['FailureBitDynAddressBit']
+
 
 def extract_file_inlocation(sversion):
     SW_version_file = sversion + '_SW_VERSION.zip'
