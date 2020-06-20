@@ -49,7 +49,7 @@ def find_failure_byID(gen_ID,swname):
 
 def extract_file_inlocation(sversion):
     SW_version_file = sversion + '_SW_VERSION.zip'
-    file_name = "D://Phy_learn//zip_file_stored//" + SW_version_file
+    file_name = "//Auto.contiwan.com/cas/Loc/ffm2/didu0187/sw_versions/"+sversion[:3]+"/" + SW_version_file
     with ZipFile(file_name, 'r') as zip:
         zip.extract('DOCUMENTATION/' + sversion + '_dynamic_failure_bit_documentation_customer.xml')
     # printing all the contents of the zip file
