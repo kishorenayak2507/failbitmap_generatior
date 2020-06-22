@@ -17,14 +17,19 @@ def find_failure_byname(name, sname):
     with open('DOCUMENTATION/' + sname + '_dynamic_failure_bit_documentation_customer.xml') as fd:
         doc = xmltodict.parse(fd.read())
         temp = 'True'
+        count = 0
     for entry in doc['FailureBits']['FailureBit']:
+        # print(entry['FailureBitName'])
         if name == entry['FailureBitName']:
             temp = 'True'
-            # print('word =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressWord'])
-            # print('Bit =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressBit'])
-            # print('Generic ID =\t' + entry['FailureBitGenericData']['FailureBitGenericDataID'])
+            print('word =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressWord'])
+            print('Bit =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressBit'])
+            print('Generic ID =\t' + entry['FailureBitGenericData']['FailureBitGenericDataID'])
+            break
         else:
             temp = 'False'
+            #print(count)
+
     return temp, entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress'][
         'FailureBitDynAddressBit'], entry['FailureBitGenericData']['FailureBitGenericDataID']
 
@@ -39,16 +44,19 @@ def find_failure_byID(gen_ID,swname):
         # print(entry['FailureBitGenericData']['FailureBitGenericDataID'])
         if gen_ID == entry['FailureBitGenericData']['FailureBitGenericDataID']:
             temp = 'True'
+            break
             # print('word =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressWord'])
             # print('Bit =\t' + entry['FailureBitDynAddress']['FailureBitDynAddressBit'])
             # print('Failure Name =\t' + entry['FailureBitName'])
         else:
             temp = 'False'
+
     return temp, entry['FailureBitName'], entry['FailureBitDynAddress']['FailureBitDynAddressWord'], entry['FailureBitDynAddress']['FailureBitDynAddressBit']
 
 
 def extract_file_inlocation(sversion):
     SW_version_file = sversion + '_SW_VERSION.zip'
+    # file_name = "D://Phy_learn//zip_file_stored//" + SW_version_file #test
     file_name = "//Auto.contiwan.com/cas/Loc/ffm2/didu0187/sw_versions/"+sversion[:3]+"/" + SW_version_file
     with ZipFile(file_name, 'r') as zip:
         zip.extract('DOCUMENTATION/' + sversion + '_dynamic_failure_bit_documentation_customer.xml')
